@@ -1,0 +1,5 @@
+.envrc
+.direnv
+result
+*.qcow2
+*.img

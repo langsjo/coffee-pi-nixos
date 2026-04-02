@@ -1,0 +1,50 @@
+name: Build pi image
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+  actions: write
+jobs:
+  build-pi-image-artifact:
+    runs-on: ubuntu-24.04-arm
+    concurrency:
+      group: upload-artifact-${{ github.ref_name }}-pi-image
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v6
+      - name: Free Disk Space
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          android: true
+          dotnet: true
+          haskell: true
+          large-packages: true
+          docker-images: true
+          swap-storage: true
+      - uses: cachix/install-nix-action@v31
+      - name: Restore and cache Nix store
+        uses: nix-community/cache-nix-action@v7
+        with:
+          # restore and save a cache using this key
+          primary-key: nix-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/*.nix', 'flake.lock') }}
+          # if there's no cache hit, restore a cache by this prefix
+          restore-prefixes-first-match: nix-${{ runner.os }}-${{ runner.arch }}-
+          # collect garbage until Nix store size (in bytes) is at most this number
+          # before trying to save a new cache
+          gc-max-store-size-linux: 10000000000
+          # do purge caches
+          purge: true
+          # purge all versions of the cache
+          purge-prefixes: nix-${{ runner.os }}-${{ runner.arch }}-
+          # created more than this number of seconds ago relative to the start of the `Post Restore` phase
+          purge-created: 0
+          # except the version with the `primary-key`, if it exists
+          purge-primary-key: never
+      - run: nix build .#nixosConfigurations.pi.config.system.build.images.sd-card
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: sd-image
+          path: result/sd-image/*
