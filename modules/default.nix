@@ -49,10 +49,10 @@ in
     program = lib.getExe coffeeViewer;
     # environment.WLR_LIBINPUT_NO_DEVICES = "1";
   };
-  # systemd.services."cage-tty1" = {
-  #   wants = [ "network-online.target" ];
-  #   after = [ "network-online.target" ];
-  # };
+  systemd.services."cage-tty1" = {
+    wants = [ "network-online.target" ];
+    after = [ "network-online.target" ];
+  };
 
   system.stateVersion = "26.05";
 }

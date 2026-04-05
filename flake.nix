@@ -17,7 +17,6 @@
     {
       self,
       nixpkgs,
-      nixos-raspberrypi,
       ...
     }@inputs:
     let
@@ -34,7 +33,10 @@
           (nixpkgs.lib.nixosSystem {
             inherit system;
             specialArgs = { inherit inputs; };
-            modules = [ ./modules ];
+            modules = [
+              ./modules
+              ./modules/pc.nix
+            ];
           }).config.system.build.vm;
       });
 
