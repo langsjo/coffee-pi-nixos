@@ -12,18 +12,19 @@ while true; do
     mpv \
         --no-config \
         --rtsp-transport=tcp \
+        --profile=low-latency \
         --geometry=100%x100% \
         --fs \
         --no-border \
         --gpu-context=wayland \
+        --gpu-api=opengl \
         --vo=gpu \
         --ontop \
-        --ao=null \
-        --hwdec=auto \
-        --cache=yes \
-        --cache-secs=30 \
-        --demuxer-max-bytes=300M \
-        --demuxer-max-back-bytes=100M \
+        --no-audio \
+        --hwdec=drm-copy \
+        --cache=no \
+        --demuxer-lavf-o=fflags=nobuffer \
+        --framedrop=vo \
         --force-window=immediate \
         --quiet \
         "$RTSP_URL" >>"$MPV_LOG" 2>&1 || true

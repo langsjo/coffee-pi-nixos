@@ -31,7 +31,11 @@ in
   users.users.pi = {
     isNormalUser = true;
     initialPassword = "coffee-pi";
-    extraGroups = [ "wheel" ];
+    extraGroups = [
+      "wheel"
+      "video"
+      "render"
+    ];
   };
 
   zramSwap = {
