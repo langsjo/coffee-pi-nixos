@@ -35,6 +35,7 @@ in
       "wheel"
       "video"
       "render"
+      "i2c"
     ];
   };
 
