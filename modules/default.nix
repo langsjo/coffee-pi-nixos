@@ -16,6 +16,7 @@ in
   nix.enable = false;
   nixpkgs.config.allowUnfree = true;
   hardware.enableAllFirmware = true;
+  hardware.enableAllHardware = true;
   hardware.graphics.enable = true;
 
   networking.wireless = {

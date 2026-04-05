@@ -42,7 +42,7 @@ jobs:
           purge-created: 0
           # except the version with the `primary-key`, if it exists
           purge-primary-key: never
-      - run: nix build .#nixosConfigurations.pi.config.system.build.images.sd-card
+      - run: nix build .#nixosConfigurations.pi.config.system.build.images.sd-card -L
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
