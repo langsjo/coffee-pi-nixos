@@ -14,15 +14,6 @@ jobs:
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v6
-      - name: Free Disk Space
-        uses: jlumbroso/free-disk-space@v1.3.1
-        with:
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: true
-          docker-images: true
-          swap-storage: true
       - uses: cachix/install-nix-action@v31
       - name: Restore and cache Nix store
         uses: nix-community/cache-nix-action@v7
