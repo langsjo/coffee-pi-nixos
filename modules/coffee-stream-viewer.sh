@@ -12,7 +12,6 @@ while true; do
     mpv \
         --no-config \
         --rtsp-transport=tcp \
-        --profile=low-latency \
         --geometry=100%x100% \
         --fs \
         --no-border \
@@ -22,8 +21,12 @@ while true; do
         --ontop \
         --no-audio \
         --hwdec=drm-copy \
-        --cache=no \
-        --demuxer-lavf-o=fflags=nobuffer \
+        --cache=yes \
+        --cache-secs=90 \
+        --demuxer-max-bytes=128M \
+        --demuxer-max-back-bytes=64M \
+        --cache-pause=yes \
+        --cache-pause-wait=3 \
         --framedrop=vo \
         --force-window=immediate \
         --quiet \
