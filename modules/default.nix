@@ -20,6 +20,12 @@ let
     };
     text = builtins.readFile ./coffee-stream-viewer.sh;
   };
+
+  vlcViewer = pkgs.writeShellApplication {
+    name = "vlc-viewer";
+    runtimeInputs = [ pkgs.vlc ];
+    text = builtins.readFile ./vlc-viewer.sh;
+  };
 in
 {
   nix.enable = false;
@@ -56,7 +62,7 @@ in
   services.cage = {
     enable = true;
     user = "pi";
-    program = lib.getExe coffeeViewer;
+    program = lib.getExe vlcViewer;
     # environment.WLR_LIBINPUT_NO_DEVICES = "1";
   };
   systemd.services."cage-tty1" = {
