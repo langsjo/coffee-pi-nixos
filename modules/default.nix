@@ -4,11 +4,20 @@
   ...
 }:
 let
+  gstPackages = with pkgs.gst_all_1; [
+    gstreamer
+    gst-plugins-base
+    gst-plugins-good
+    gst-plugins-bad
+    gst-libav
+  ];
+  gstPluginPath = lib.makeSearchPathOutput "lib" "lib/gstreamer-1.0" gstPackages;
   coffeeViewer = pkgs.writeShellApplication {
     name = "stream-viewer";
-    runtimeInputs = [
-      pkgs.mpv
-    ];
+    runtimeInputs = gstPackages;
+    runtimeEnv = {
+      GST_PLUGIN_PATH = gstPluginPath;
+    };
     text = builtins.readFile ./coffee-stream-viewer.sh;
   };
 in
