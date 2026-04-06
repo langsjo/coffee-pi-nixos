@@ -1,13 +1,11 @@
 {
-  lib,
   inputs,
-  modulesPath,
   ...
 }:
 {
   imports = [
-    inputs.nixos-hardware.nixosModules.raspberry-pi-4
+    inputs.nixos-hardware.nixosModules.raspberry-pi-2
   ];
   boot.initrd.allowMissingModules = true;
-  nixpkgs.hostPlatform = "aarch64-linux";
+  nixpkgs.hostPlatform = "armv7l-linux";
 }
