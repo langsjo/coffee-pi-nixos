@@ -7,10 +7,16 @@ let
   coffeeViewer = pkgs.writeShellApplication {
     name = "stream-viewer";
     runtimeInputs = [
-      pkgs.mpv
+      (pkgs.mpv.override { youtubeSupport = false; })
     ];
     text = builtins.readFile ./coffee-stream-viewer.sh;
   };
+
+  cage' = pkgs.cage.override (old: {
+    wlroots_0_19 = old.wlroots_0_19.override {
+      enableXWayland = false;
+    };
+  });
 in
 {
   nix.enable = false;
@@ -19,6 +25,7 @@ in
   hardware.enableAllHardware = true;
   hardware.graphics.enable = true;
 
+  networking.networkmanager.enable = lib.mkForce false;
   networking.wireless = {
     enable = true;
     networks."aalto open" = { };
@@ -41,6 +48,7 @@ in
 
   services.cage = {
     enable = true;
+    package = cage';
     user = "pi";
     program = lib.getExe coffeeViewer;
     # environment.WLR_LIBINPUT_NO_DEVICES = "1";
